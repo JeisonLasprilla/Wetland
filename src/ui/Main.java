@@ -359,7 +359,7 @@ public class Main{
 		if (emptyPos == -1){ // array full
 			System.out.println("\nArray is full");
 		} else{ // array has space
-			dagma.addSpecie(emptyPos,westlandIndicator, category, name, scientificName, migratorySpecie, specieType);
+			dagma.addSpecie(emptyPos, westlandIndicator, category, name, scientificName, migratorySpecie, specieType);
 		} //Preguntar el wetland
 	}
 

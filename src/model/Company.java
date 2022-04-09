@@ -50,7 +50,7 @@ public class Company{
 
     //primero ubicar el humedal donde se quiere agregar
     public void addSpecie(int emptyPos,int westlandIndicator, String category, String name, String scientificName, boolean migratorySpecie, String specieType){
-        
+
         hasWetlands[getEmptyPositionHasWetlands()] = wetlands[westlandIndicator];
         species[emptyPos] = new Specie (category, name, scientificName, migratorySpecie, specieType);
     }
