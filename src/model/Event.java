@@ -2,7 +2,7 @@
  * Event
  * @author JLasprilla
  * @since april 2022
- * @version 1.0
+ * @version 1.1
  */
 package model;
 
@@ -10,21 +10,35 @@ public class Event{
 
 	//Atributos
 	private String name;
-	private String typeEvent;
+	private String eventType;
 	private String nameCustomer;
 	private double value;
 	private String description;
+	private String eventDate;
 
-	//Constructor
-	public Event(String name, String typeEvent, String nameCustomer, double value, String description){
+	/**
+	 *Constructor wetland
+	 * */
+	public Event(String name, String eventType, String nameCustomer, double value, String description, String eventDate){
+
 		this.name = name;
-		this.typeEvent = typeEvent;
+		this.eventType = eventType;
 		this.nameCustomer = nameCustomer;
 		this.value = value;
 		this.description = description;
+		this.eventDate = eventDate;
 	}
 
-	//Other methods
+	//getters and setters
+
+	public String getEventDate(){
+		return eventDate;
+	}
+	
+	public void setEventDate(String eventDated){
+		this.eventDate = eventDate;
+	} 
+
 	public String getName(){
 		return name;
 	}
@@ -33,12 +47,12 @@ public class Event{
 		this.name = name;
 	}
 
-	public String getTypeEvent(){
-		return typeEvent;
+	public String getEventType(){
+		return eventType;
 	}
 	
-	public void setTypeEvent(String typeEvent){
-		this.typeEvent = typeEvent;
+	public void setEventType(String eventType){
+		this.eventType = eventType;
 	}
 
 	public String getNameCustomer(){
@@ -64,7 +78,4 @@ public class Event{
 	public void setDescription(String description){
 		this.description = description;
 	}
-
-	//Relationships
-	private Date eventDate;
 }

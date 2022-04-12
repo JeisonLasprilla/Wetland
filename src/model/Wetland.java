@@ -2,16 +2,18 @@
  * Wetland
  * @author JLasprilla
  * @since april 2022
- * @version 1.0
+ * @version 1.1
  */
 
-package model; //Paquete
+package model;
 
 public class Wetland{
 
-	private Specie[] hasSpecie;
-	private Event[] hasEvent;
-	private EnviromentalPlan hasEnviromentalPlan;
+	private static final int MAX_EVENTS = 800;
+	private static final int MAX_SPECIES = 800;
+
+	protected Specie[] hasSpecies;
+	protected Event[] hasEvents;
 
 	private String name;
 	private String zone;
@@ -20,14 +22,18 @@ public class Wetland{
 	private String photoUrl;
 	private boolean protectedArea;
 	private String nameNeighborhood;
-	private boolean lessSpecies;
-	private boolean moreSpecies;
+	private int totalFlora;
+	private int totalFauna;
 	private boolean enviromentalPlan;
 	private String planPercentage;
 
-	//Constructor
+	/**
+	 *Constructor Wetland
+	 * */
+	public Wetland (String name, String zone, String security, double km2, String photoUrl, boolean protectedArea, String nameNeighborhood, int totalFlora, int totalFauna, boolean enviromentalPlan, String planPercentage){
 
-	public Wetland (String name, String zone, String security, double km2, String photoUrl, boolean protectedArea, String nameNeighborhood, boolean lessSpecies, boolean moreSpecies, boolean enviromentalPlan, String planPercentage){
+		hasEvents = new Event [MAX_EVENTS];
+        hasSpecies = new Specie [MAX_SPECIES];
 
 		this.name = name;
 		this.zone = zone;
@@ -36,17 +42,57 @@ public class Wetland{
 		this.photoUrl = photoUrl;
 		this.protectedArea = protectedArea;
 		this.nameNeighborhood = nameNeighborhood;
-		this.lessSpecies = lessSpecies;
-		this.moreSpecies = moreSpecies;
+		this.totalFlora = totalFlora;
+		this.totalFauna = totalFauna;
 		this.enviromentalPlan = enviromentalPlan;
 		this.planPercentage = planPercentage;
 	}
 
+	/**
+	 *to String method
+	 * */
 	public String toString(){
-		return "\nName: "+name+"\nZone: "+zone+"\nSecurity: "+security+"\nKm2: "+km2+"\nPhoto Url: "+photoUrl+"\nProtected Area: "+protectedArea+"\nNeighborhood: "+nameNeighborhood+"\nLess Species of flora: "+lessSpecies+"\nGreater number of animals: "+moreSpecies+"\nEnviromental plan: "+enviromentalPlan+"\nEnviromental plan percentage: "+planPercentage+"";
+		return "\nName: "+name+"\nZone: "+zone+"\nSecurity: "+security+"\nKm2: "+km2+"\nPhoto Url: "+photoUrl+"\nProtected Area: "+protectedArea+"\nNeighborhood: "+nameNeighborhood+"\nCount Species of flora: "+totalFlora+"\nCount number of animals: "+totalFauna+"\nEnviromental plan: "+enviromentalPlan+"\nEnviromental plan percentage: "+planPercentage+"";
 	}
+
+	/**
+     * Search the first empty position in hasSpecies array
+     * @return position, the number of the first empty position
+     */ 
+    public int getEmptyPositionHasSpecies(){
+    
+        boolean emptyPosition = false;
+        int position = -1;
+        for (int i=0; i<MAX_SPECIES && !emptyPosition; i++){
+
+            if (hasSpecies[i]==null){
+                emptyPosition = true;
+                position=i;
+            }
+        }
+        return position;
+    }
+
+    /**
+     * Search the first empty position in hasEvents array
+     * @return position, the number of the first empty position
+    */ 
+    public int getEmptyPositionHasEvents(){
+    
+        boolean emptyPosition = false;
+        int position = -1;
+        for (int i=0; i<MAX_EVENTS && !emptyPosition; i++){
+
+            if (hasEvents[i]==null){
+                emptyPosition = true;
+                position=i;
+            }
+        }
+        return position;
+    }
+
 	
-	//Other methods
+	//getters and setters
 
 	public String getName(){
 		return name;
@@ -104,20 +150,20 @@ public class Wetland{
 		this.nameNeighborhood = nameNeighborhood;
 	}
 
-	public boolean getLessSpecies(){
-		return lessSpecies;
+	public int getTotalFlora(){
+		return totalFlora;
 	}
 
-	public void setLessSpecies(boolean lessSpecies){
-		this.lessSpecies = lessSpecies;
+	public void setTotalFlora(int totalFlora){
+		this.totalFlora = totalFlora;
 	}
 
-	public boolean getMoreSpecies(){
-		return moreSpecies;
+	public int getTotalFauna(){
+		return totalFauna;
 	}
 
-	public void setMoreSpecies(boolean moreSpecies){
-		this.moreSpecies = moreSpecies;
+	public void setTotalFauna(int totalFauna){
+		this.totalFauna = totalFauna;
 	}
 
 	public boolean getEnviromentalPlan(){

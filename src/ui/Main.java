@@ -8,6 +8,12 @@ To execute: java -cp bin ui.Main
 Generate javadoc: javadoc -cp src src/ui/Main.java -d doc/API
 */
 
+/**
+ * Main
+ * @author JLasprilla
+ * @since april 2022
+ * @version 1.1
+ */
 public class Main{
 
 	private Company dagma; // Single relationship
@@ -21,7 +27,10 @@ public class Main{
 		sc = new Scanner(System.in);
 	}
 
-
+	/**
+	* Main
+	* @param args, String[]
+	*/
 	public static void main (String[] args){;
 
 		Main companyMain = new Main();
@@ -38,7 +47,7 @@ public class Main{
 	* @return select String
 	*/
 	public String options (){
-		System.out.println("\n\t1.Add wetland\n\t2.Add specie\n\t3.Add event\n\t4.Search species\n\t5.Wetlands information\n\t6.Annual maintenance per wetland\n\t7.Less species of flora\n\t8.Greater number of animals\n\t9.Exit\n");
+		System.out.println("\n\t1.Add wetland\n\t2.Add specie\n\t3.Add event\n\t4.Search species in wetlands\n\t5.Wetlands information\n\t6.Annual maintenance per wetland\n\t7.Less species of flora\n\t8.Greater number of animals\n\t9.Exit\n");
 		String select = sc.nextLine();
 		return select;
 	}
@@ -47,7 +56,6 @@ public class Main{
 	/**
 	* Start menu
 	* @param select String
-	* @return void
 	*/
 	public void menu(String select){
 		switch (select){
@@ -57,31 +65,31 @@ public class Main{
 			break;
 
 			case "2":
-
+				createNewSpecie();
 			break;
 
 			case "3":
-
+				createNewEvent();
 			break;
 
 			case "4":
-
+				searchSpecie();
 			break;
 
 			case "5":
-
+				infoWetlands();
 			break;
 
 			case "6":
-
+				findRepeats();
 			break;
 
 			case "7":
-
+				lessSpecies();
 			break;
 
 			case "8":
-
+				moreSpecies();
 			break;
 
 			case "9":
@@ -91,8 +99,7 @@ public class Main{
 	}
 
 	/**
-	* Request inputs and create the new wetland
-	* @return void
+	* Request inputs and create the new wetland <br>
 	*/
 	public void createNewWetland (){
 
@@ -206,40 +213,35 @@ public class Main{
 			planPercentage = sc.nextLine();
 		}
 
-		boolean lessSpecies = false; //less species
-		boolean moreSpecies = false; //more species
+		int totalFlora = 0; //count flora
+		int totalFauna = 0; //count fauna
 
 		int emptyPos = dagma.getEmptyPositionWetland();
 		if (emptyPos == -1){ // array full
 			full();
 		} else{ // array has space
-			dagma.addWetland(emptyPos, name, zone, security, km2, photoUrl, protectedArea, nameNeighborhood, lessSpecies, moreSpecies, enviromentalPlan, planPercentage);
+			dagma.addWetland(emptyPos, name, zone, security, km2, photoUrl, protectedArea, nameNeighborhood, totalFlora, totalFauna, enviromentalPlan, planPercentage);
 		}
 	}
 
 	/**
-	* Request inputs and create the new specie
-	* @return void
+	* Request inputs and create the new specie <br>
 	*/
 	public void createNewSpecie(){
 
-		boolean exist = false;
-		while (exist == false){
-			System.out.println("Type the westland name");
-			String westlandName = sc.nextLine();
-			westlandName = westlandName.toLowerCase();
+		int wetlandIndicator = -1;
+        while (wetlandIndicator < 0){
+            System.out.println("\nType the wetland name");
+            String wetlandName = sc.nextLine();
+            wetlandName = wetlandName.toLowerCase();
 
-			for (int i = 0; i < MAX_WESTLANDS; i++){
-				if(westlandName.equals(westlands[i])){
-					int westlandIndicator = i; 
-					exist = true;
-				}
-			}
-			if(exist==false){
-				typo();
-			}
-		}
-     
+            wetlandIndicator = -1;
+            wetlandIndicator = dagma.wetlandIndicator(wetlandIndicator, wetlandName);
+            if(wetlandIndicator < 0){
+                System.out.println ("Wetland doesn't exist");
+            }
+        }
+
 		String categoryType = "0"; //Request category
 		while (categoryType.equals("0")){
 			System.out.println("\nSelect the category:\n"+
@@ -275,7 +277,7 @@ public class Main{
 
 		String migratory = "0"; //Migratory specie
 		while (migratory.equals("0")){
-			System.out.println("¿Migratory specie?:\n"+
+			System.out.println("\n¿Migratory specie?:\n"+
 								" 1.Yes\n"+
 								" 2.No");
 			migratory = sc.nextLine();
@@ -303,7 +305,7 @@ public class Main{
 
 			String faunaType = "0";
 			while (faunaType.equals("0")){
-				System.out.println("Select fauna type :\n"+
+				System.out.println("Select fauna type:\n"+
 									" 1.Bird\n"+
 									" 2.Mammal\n"+
 									" 3.Aquatic");
@@ -333,7 +335,7 @@ public class Main{
 
 			String floraType = "0";
 			while (floraType.equals("0")){
-				System.out.println("Select flora type :\n"+
+				System.out.println("Select flora type:\n"+
 									" 1.Terrestrial\n"+
 									" 2.Aquatic");
 				floraType = sc.nextLine();
@@ -359,15 +361,28 @@ public class Main{
 		if (emptyPos == -1){ // array full
 			System.out.println("\nArray is full");
 		} else{ // array has space
-			dagma.addSpecie(emptyPos, westlandIndicator, category, name, scientificName, migratorySpecie, specieType);
+			dagma.addSpecie(emptyPos, wetlandIndicator, category, name, scientificName, migratorySpecie, specieType);
 		} //Preguntar el wetland
 	}
 
 	/**
-	* Request inputs and create the new event
-	* @return void
+	* Request inputs and create the new event <br>
 	*/
 	public void createNewEvent(){
+
+		int wetlandIndicator = -1;
+        while (wetlandIndicator < 0){
+            System.out.println("\nType the wetland name");
+            String wetlandName = sc.nextLine();
+            wetlandName = wetlandName.toLowerCase();
+
+            wetlandIndicator = -1;
+            wetlandIndicator = dagma.wetlandIndicator(wetlandIndicator, wetlandName);
+            if(wetlandIndicator < 0){
+                System.out.println ("Wetland doesn't exist");
+            }
+        }
+
 		System.out.println("\nName:"); //Request event name
 		String name = sc.nextLine();
 		name = name.toLowerCase();
@@ -387,22 +402,22 @@ public class Main{
 			}
 		}
 
-		String typeEvent = "";
+		String eventType = "";
 
 		switch (type){
 			case "1":
-				typeEvent = "maintenance";
+				eventType = "maintenance";
 			break;
 
 			case "2":
-				typeEvent = "school";
+				eventType = "school";
 			break;
 
 			case "3":
-				typeEvent = "improvement";
+				eventType = "improvement";
 			break;
 			case "4":
-				typeEvent = "celebration";
+				eventType = "celebration";
 			break;
 		}
 
@@ -418,73 +433,109 @@ public class Main{
 		String description = sc.nextLine();
 		description = description.toLowerCase();
 
+		System.out.println("\nDay (Two numbers)"); //Date
+		String day = sc.nextLine();
+
+		System.out.println("\nMonth (Two numbers)");
+		String month = sc.nextLine();
+
+		System.out.println("\nYear (Four numbers)");
+		String year = sc.nextLine();
+
+		String eventDate = (""+day+"/"+month+"/"+year+""); //Date in String
+
 		int emptyPos = dagma.getEmptyPositionEvents();
 		if (emptyPos == -1){ // array full
 			full();
 		} else{ // array has space
-			dagma.addEvent(emptyPos, name, typeEvent, nameCustomer, value, description);
-		}  //Preguntar el wetland
+			dagma.addEvent(wetlandIndicator, emptyPos, name, eventType, nameCustomer, value, description, eventDate);
+		}
 	}
 
 	/**
 	* Show typo
-	* @return void
 	*/
 	public void typo(){
 		System.out.println ("\nERROR\nWe have a typo, please try again.");
 	}
 
 	/**
-	* Show error by array length
-	* @return void
+	* Show error by array length <br>
 	*/
 	public void full(){
 		System.out.println("\nERROR\nArray is full");
 	}
 
 	/**
-	* Calculates the wetland with the least number of plant species </br>
-	* @return Wetland Class,
+	* Calculates the wetland with the least number of plant species <br>
 	*/
-	public String lessSpecies(){
-		String wetlandLessSpecies = "";
-		return wetlandLessSpecies;
+	public void lessSpecies(){
+		dagma.showLessSpecies();
 	}
 
 
 	/**
-	* Calculates the wetland with the most animal species </br>
-	* @return Wetland Class,
+	* Calculates the wetland with the most animal species <br>
 	*/
-	public String moreSpecies(){
-		String wetlandMoreSpecies = "";
-		return wetlandMoreSpecies;
+	public void moreSpecies(){
+		dagma.showMoreSpecies();
 	}
 
 
 	/**
-	* Counts the repetition of maintenance
-	* @return repeats int
+	* Shows the repetitions of maintenance for each wetland over a time period <br>
 	*/
-	public int findRepeatsYear(int repeatsYear){
-		int repeats = 0;
-		return repeats;
+	public void findRepeats(){
+		
+		System.out.println("\nTwo dates will be requested to calculate the number of maintenances performed during that time period\n\nSince (lower date)");
+
+        System.out.println("\nDay (Two numbers)"); //Date
+        String day1 = sc.nextLine();
+
+        System.out.println("\nMonth (Two numbers)");
+        String month1 = sc.nextLine();
+
+        System.out.println("\nYear (Four numbers)");
+        String year1 = sc.nextLine();
+
+        String since = (""+day1+"/"+month1+"/"+year1+""); //Date in String
+
+        System.out.println("\n\nUntil (longer date)");
+
+        System.out.println("\nDay (Two numbers)");
+        String day2 = sc.nextLine();
+
+        System.out.println("\nMonth (Two numbers)");
+        String month2 = sc.nextLine();
+
+        System.out.println("\nYear (Four numbers)");
+        String year2 = sc.nextLine();
+
+        String until = (""+day2+"/"+month2+"/"+year2+""); //Date in String
+
+        dagma.countMaintenance(since, until);
+
 	}
 
 
 	/**
-	* Print all the Wetlands
-	* @return void
+	* Print all the Wetlands <br>
 	*/
 	public void infoWetlands(){
+		dagma.showInfoWetlands();
 	}
 
 
 	/**
-	* print the wetlands where the species you are looking for is found
-	* @param scientificName String
-	* @return void
+	* print the wetlands where the species you are looking for is found <br>
 	*/
-	public void searchSpecie(String scientificName){
+	public void searchSpecie(){
+
+		System.out.println("\nScientific name:");
+        String name = sc.nextLine();
+        name = name.toLowerCase();
+
+        dagma.speciesInWetlands(name);
+
 	}
 }
