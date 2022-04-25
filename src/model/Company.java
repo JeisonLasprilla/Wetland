@@ -191,19 +191,25 @@ public class Company{
 
         if (wetlands[0] == null){
             System.out.println("There are no wetlands");
-            System.exit(0);
-        }
+        } else {
+            boolean end = false;
+            for (int i = 0 ; i < MAX_WETLANDS && end == false; i++){
+                
+                if (wetlands[i] == null){
+                    end = true;
+                } else {
 
-        for (int i = 0 ; i < MAX_WETLANDS; i++){
-            
-            for (int j = 0; j < wetlands[i].hasSpecies.length; i++){
+                    boolean end2 = false;
+                    for (int j = 0; j < wetlands[i].hasSpecies.length && end2 == false; j++){
 
-                if (wetlands[i].hasSpecies[j].getScientificName().equals(name)){
+                        if (wetlands[i].hasSpecies[j] == null){
+                            end2 = true;
+                        } else if (wetlands[i].hasSpecies[j].getScientificName().equals(name)){
+                            System.out.println (wetlands[i]);
+                        }
 
-                    System.out.println (wetlands[i]);
-
+                    }
                 }
-
             }
         }
     }
@@ -270,12 +276,16 @@ public class Company{
      **/
     public int wetlandIndicator(int wetlandIndicator, String wetlandName){
 
+        if (wetlands[0] == null){
+            System.out.println("There are no Wetlands");
+            wetlandIndicator = 82;
+        } else {            
             int i = 0;
-            while (wetlandIndicator<0 && wetlandIndicator != -2){
+            while (wetlandIndicator < 0 && wetlandIndicator != -2){
 
                 if (wetlands[i] == null){
-                    System.out.println ("There are no wetlands");
-                    System.exit(0);
+                    System.out.println ("The name doesn't match with any wetlands");
+                    wetlandIndicator = -2;
 
                 } else if (wetlands[i] == null){
                    wetlandIndicator = -2;
@@ -285,6 +295,7 @@ public class Company{
                     i++;
                 }
             }
+        }
         return wetlandIndicator;    
     }
 

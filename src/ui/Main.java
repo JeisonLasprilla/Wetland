@@ -237,132 +237,132 @@ public class Main{
 
             wetlandIndicator = -1;
             wetlandIndicator = dagma.wetlandIndicator(wetlandIndicator, wetlandName);
-            if(wetlandIndicator < 0){
-                System.out.println ("Wetland doesn't exist");
-            }
         }
 
-		String categoryType = "0"; //Request category
-		while (categoryType.equals("0")){
-			System.out.println("\nSelect the category:\n"+
-								" 1.Fauna\n"+
-								" 2.Flora");
-			categoryType = sc.nextLine();
-			if (!categoryType.equals("1") && !categoryType.equals("2")){
-				categoryType = "0";
-				System.out.println ();
-				typo();
+   		if (wetlandIndicator != 82){
+
+			String categoryType = "0"; //Request category
+			while (categoryType.equals("0")){
+				System.out.println("\nSelect the category:\n"+
+									" 1.Fauna\n"+
+									" 2.Flora");
+				categoryType = sc.nextLine();
+				if (!categoryType.equals("1") && !categoryType.equals("2")){
+					categoryType = "0";
+					System.out.println ();
+					typo();
+				}
 			}
-		}
 
-		String category = "";
+			String category = "";
 
-		switch (categoryType){
-		case "1":
-			category = "fauna";
-		break;
-
-		case "2":
-			category = "flora";
-		break;
-		}
-
-		System.out.println("\nSpecie name:"); //Request name
-		String name = sc.nextLine();
-		name = name.toLowerCase();
-
-		System.out.println("\nScientific name:"); //Request scientific name
-		String scientificName = sc.nextLine();
-		scientificName = scientificName.toLowerCase();
-
-		String migratory = "0"; //Migratory specie
-		while (migratory.equals("0")){
-			System.out.println("\n¿Migratory specie?:\n"+
-								" 1.Yes\n"+
-								" 2.No");
-			migratory = sc.nextLine();
-			if (!migratory.equals("1") && !migratory.equals("2")){
-				migratory = "0";
-				System.out.println ();
-				typo();
-			}
-		}
-
-		boolean migratorySpecie = false;
-		switch (migratory){
+			switch (categoryType){
 			case "1":
-				migratorySpecie = true;
+				category = "fauna";
 			break;
 
 			case "2":
-				migratorySpecie = false;
+				category = "flora";
 			break;
-		}
+			}
 
-		String specieType = ""; // Specie type
+			System.out.println("\nSpecie name:"); //Request name
+			String name = sc.nextLine();
+			name = name.toLowerCase();
 
-		if (category=="fauna"){ //for wildlife
+			System.out.println("\nScientific name:"); //Request scientific name
+			String scientificName = sc.nextLine();
+			scientificName = scientificName.toLowerCase();
 
-			String faunaType = "0";
-			while (faunaType.equals("0")){
-				System.out.println("Select fauna type:\n"+
-									" 1.Bird\n"+
-									" 2.Mammal\n"+
-									" 3.Aquatic");
-				faunaType = sc.nextLine();
-				if (!faunaType.equals("1") && !faunaType.equals("2") && !faunaType.equals("3")){
-					faunaType = "0";
+			String migratory = "0"; //Migratory specie
+			while (migratory.equals("0")){
+				System.out.println("\n¿Migratory specie?:\n"+
+									" 1.Yes\n"+
+									" 2.No");
+				migratory = sc.nextLine();
+				if (!migratory.equals("1") && !migratory.equals("2")){
+					migratory = "0";
 					System.out.println ();
 					typo();
 				}
 			}
 
-			switch (faunaType){
+			boolean migratorySpecie = false;
+			switch (migratory){
 				case "1":
-					specieType = "bird";
+					migratorySpecie = true;
 				break;
 
 				case "2":
-					specieType = "mammal";
-				break;
-
-				case "3":
-					specieType = "aquaticwildlife";
+					migratorySpecie = false;
 				break;
 			}
 
-		}else if (category=="flora"){ //for plants
+			String specieType = ""; // Specie type
 
-			String floraType = "0";
-			while (floraType.equals("0")){
-				System.out.println("Select flora type:\n"+
-									" 1.Terrestrial\n"+
-									" 2.Aquatic");
-				floraType = sc.nextLine();
-				if (!floraType.equals("1") && !floraType.equals("2")){
-					floraType = "0";
-					System.out.println ();
-					typo();
+			if (category=="fauna"){ //for wildlife
+
+				String faunaType = "0";
+				while (faunaType.equals("0")){
+					System.out.println("Select fauna type:\n"+
+										" 1.Bird\n"+
+										" 2.Mammal\n"+
+										" 3.Aquatic");
+					faunaType = sc.nextLine();
+					if (!faunaType.equals("1") && !faunaType.equals("2") && !faunaType.equals("3")){
+						faunaType = "0";
+						System.out.println ();
+						typo();
+					}
+				}
+
+				switch (faunaType){
+					case "1":
+						specieType = "bird";
+					break;
+
+					case "2":
+						specieType = "mammal";
+					break;
+
+					case "3":
+						specieType = "aquaticwildlife";
+					break;
+				}
+
+			}else if (category=="flora"){ //for plants
+
+				String floraType = "0";
+				while (floraType.equals("0")){
+					System.out.println("Select flora type:\n"+
+										" 1.Terrestrial\n"+
+										" 2.Aquatic");
+					floraType = sc.nextLine();
+					if (!floraType.equals("1") && !floraType.equals("2")){
+						floraType = "0";
+						System.out.println ();
+						typo();
+					}
+				}
+
+				switch (floraType){
+					case "1":
+						specieType = "terrestrialplant";
+					break;
+
+					case "2":
+						specieType = "aquaticplant";
+					break;
 				}
 			}
 
-			switch (floraType){
-				case "1":
-					specieType = "terrestrialplant";
-				break;
-
-				case "2":
-					specieType = "aquaticplant";
-				break;
+			int emptyPos = dagma.getEmptyPositionSpecies();
+			if (emptyPos == -1){ // array full
+				System.out.println("\nArray is full");
+			} else{ // array has space
+				dagma.addSpecie(emptyPos, wetlandIndicator, category, name, scientificName, migratorySpecie, specieType);
 			}
 		}
-
-		int emptyPos = dagma.getEmptyPositionSpecies();
-		if (emptyPos == -1){ // array full
-			System.out.println("\nArray is full");
-		} else{ // array has space
-			dagma.addSpecie(emptyPos, wetlandIndicator, category, name, scientificName, migratorySpecie, specieType);
-		} //Preguntar el wetland
 	}
 
 	/**
@@ -378,77 +378,77 @@ public class Main{
 
             wetlandIndicator = -1;
             wetlandIndicator = dagma.wetlandIndicator(wetlandIndicator, wetlandName);
-            if(wetlandIndicator < 0){
-                System.out.println ("Wetland doesn't exist");
-            }
         }
 
-		System.out.println("\nName:"); //Request event name
-		String name = sc.nextLine();
-		name = name.toLowerCase();
+        if (wetlandIndicator != 82){
 
-		String type = "0"; //Request category
-		while (type.equals("0")){
-			System.out.println("\nSelect the category:\n"+
-								" 1.Maintenance\n"+
-								" 2.School visit\n"+
-								" 3.Improvement activity\n"+
-								" 4.Celebration");
-			type = sc.nextLine();
-			if (!type.equals("1") && !type.equals("2") && !type.equals("3") && !type.equals("4")){
-				type = "0";
-				System.out.println ();
-				typo();
+			System.out.println("\nName:"); //Request event name
+			String name = sc.nextLine();
+			name = name.toLowerCase();
+
+			String type = "0"; //Request category
+			while (type.equals("0")){
+				System.out.println("\nSelect the category:\n"+
+									" 1.Maintenance\n"+
+									" 2.School visit\n"+
+									" 3.Improvement activity\n"+
+									" 4.Celebration");
+				type = sc.nextLine();
+				if (!type.equals("1") && !type.equals("2") && !type.equals("3") && !type.equals("4")){
+					type = "0";
+					System.out.println ();
+					typo();
+				}
 			}
-		}
 
-		String eventType = "";
+			String eventType = "";
 
-		switch (type){
-			case "1":
-				eventType = "maintenance";
-			break;
+			switch (type){
+				case "1":
+					eventType = "maintenance";
+				break;
 
-			case "2":
-				eventType = "school";
-			break;
+				case "2":
+					eventType = "school";
+				break;
 
-			case "3":
-				eventType = "improvement";
-			break;
-			case "4":
-				eventType = "celebration";
-			break;
-		}
+				case "3":
+					eventType = "improvement";
+				break;
+				case "4":
+					eventType = "celebration";
+				break;
+			}
 
-		System.out.println("\nEvent manager:"); //Request event name or description
-		String nameCustomer = sc.nextLine();
-		nameCustomer = nameCustomer.toLowerCase();
+			System.out.println("\nEvent manager:"); //Request event name or description
+			String nameCustomer = sc.nextLine();
+			nameCustomer = nameCustomer.toLowerCase();
 
-		System.out.println("\nPrice:"); //Request the value
-		double value = sc.nextDouble();
-		sc.nextLine();
+			System.out.println("\nPrice:"); //Request the value
+			double value = sc.nextDouble();
+			sc.nextLine();
 
-		System.out.println("\nDescription:"); //Requesting write the description 
-		String description = sc.nextLine();
-		description = description.toLowerCase();
+			System.out.println("\nDescription:"); //Requesting write the description 
+			String description = sc.nextLine();
+			description = description.toLowerCase();
 
-		System.out.println("\nDay (Two numbers)"); //Date
-		String day = sc.nextLine();
+			System.out.println("\nDay (Two numbers)"); //Date
+			String day = sc.nextLine();
 
-		System.out.println("\nMonth (Two numbers)");
-		String month = sc.nextLine();
+			System.out.println("\nMonth (Two numbers)");
+			String month = sc.nextLine();
 
-		System.out.println("\nYear (Four numbers)");
-		String year = sc.nextLine();
+			System.out.println("\nYear (Four numbers)");
+			String year = sc.nextLine();
 
-		String eventDate = (""+day+"/"+month+"/"+year+""); //Date in String
+			String eventDate = (""+day+"/"+month+"/"+year+""); //Date in String
 
-		int emptyPos = dagma.getEmptyPositionEvents();
-		if (emptyPos == -1){ // array full
-			full();
-		} else{ // array has space
-			dagma.addEvent(wetlandIndicator, emptyPos, name, eventType, nameCustomer, value, description, eventDate);
+			int emptyPos = dagma.getEmptyPositionEvents();
+			if (emptyPos == -1){ // array full
+				full();
+			} else{ // array has space
+				dagma.addEvent(wetlandIndicator, emptyPos, name, eventType, nameCustomer, value, description, eventDate);
+			}
 		}
 	}
 
